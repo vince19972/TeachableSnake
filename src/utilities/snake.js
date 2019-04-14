@@ -41,6 +41,7 @@ export function moveSnake(currentXYPosition, currentXYVelocity) {
 		newYPosition: yPosition + yVelocity
 	}
 
+	// exceeding boundaries situation handling
 	if (newXY.newXPosition > canvasWidth) newXY.newXPosition = 0
 	if (newXY.newXPosition < 0) newXY.newXPosition = canvasWidth
 	if (newXY.newYPosition > canvasHeight) newXY.newYPosition = 0
