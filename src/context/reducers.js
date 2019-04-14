@@ -1,6 +1,8 @@
+import { moveSnake } from '../utilities/snake'
+
 const initialState = {
 	globalValues: {
-		unit: 1
+		unit: 1,
 	},
 	players: [
 		{
@@ -30,10 +32,18 @@ const reducer = (state = initialState, action) => {
 				updatePlayer.yVelocity = action.payload.yVelocity
 			}
 
+			const { newXPosition, newYPosition } = moveSnake({
+				xPosition: updatePlayer.xPosition,
+				yPosition: updatePlayer.yPosition
+			}, {
+				xVelocity: updatePlayer.xVelocity,
+				yVelocity: updatePlayer.yVelocity
+			})
+
 			state.players[action.payload.playerId] = {
 				...updatePlayer,
-				xPosition: updatePlayer.xPosition + updatePlayer.xVelocity,
-				yPosition: updatePlayer.yPosition + updatePlayer.yVelocity
+				xPosition: newXPosition,
+				yPosition: newYPosition
 			}
 
 			// console.log(state.players[0].xPosition)
