@@ -23,3 +23,7 @@ export function updateGameFrame(state, canvas, moveSnake) {
 		requestAnimationFrame(updateGameFrame(state, canvas, moveSnake))
 	}
 }
+
+export function moveSnake(currentXYPosition) {
+
+}

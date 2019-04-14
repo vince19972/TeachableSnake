@@ -1,13 +1,13 @@
 const initialState = {
 	globalValues: {
-		xVelocity: 0,
-		yVelocity: 0,
 		unit: 1
 	},
 	players: [
 		{
 			name: 'player 1',
 			color: 'red',
+			xVelocity: 0,
+			yVelocity: 0,
 			xPosition: 0,
 			yPosition: 0
 		}
@@ -23,20 +23,21 @@ const reducer = (state = initialState, action) => {
 
 	switch (action.type) {
 		case types.MOVE_SNAKE:
+			const updatePlayer = state.players[action.payload.playerId]
+
 			if (!action.payload.keepMoving) {
-				state.globalValues.xVelocity = action.payload.xVelocity
-				state.globalValues.yVelocity = action.payload.yVelocity
+				updatePlayer.xVelocity = action.payload.xVelocity
+				updatePlayer.yVelocity = action.payload.yVelocity
 			}
 
-			const updatePlayer = state.players[action.payload.playerId]
 			state.players[action.payload.playerId] = {
 				...updatePlayer,
-				xPosition: updatePlayer.xPosition + state.globalValues.xVelocity,
-				yPosition: updatePlayer.yPosition + state.globalValues.yVelocity
+				xPosition: updatePlayer.xPosition + updatePlayer.xVelocity,
+				yPosition: updatePlayer.yPosition + updatePlayer.yVelocity
 			}
 
-			console.log(state.players[0].xPosition)
-			console.log(state.players[0].yPosition)
+			// console.log(state.players[0].xPosition)
+			// console.log(state.players[0].yPosition)
 
 			return {
 				...state
