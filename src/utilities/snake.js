@@ -7,11 +7,12 @@ export function initCanvas(canvas) {
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 
-export function updateGameFrame(state, canvas) {
+export function updateGameFrame(state, canvas, moveSnake) {
 	const ctx = canvas.getContext('2d')
 
 	return () => {
 		initCanvas(canvas)
+		moveSnake()
 
 		state.players.forEach((player, index) => {
 			const { xPosition, yPosition, color } = player
@@ -19,6 +20,6 @@ export function updateGameFrame(state, canvas) {
 			ctx.fillRect(xPosition, yPosition, 10, 10)
 		})
 
-		requestAnimationFrame(updateGameFrame(state, canvas))
+		requestAnimationFrame(updateGameFrame(state, canvas, moveSnake))
 	}
 }

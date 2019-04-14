@@ -1,44 +1,64 @@
 import { types } from './reducers'
 
+const keys = {
+	LEFT: 37,
+	UP: 38,
+	RIGHT: 39,
+	DOWN: 40
+}
+
 export const useActions = (state, dispatch) => {
 
 	function moveSnake(event) {
-		const { players } = state
+		const { players, globalValues } = state
+		const { unit } = globalValues
+		const { LEFT, UP, RIGHT, DOWN } = keys
+		const keyCode = event ? event.keyCode : null
 
-		switch(event.keyCode) {
-			case 37:
+		switch(keyCode) {
+			case LEFT:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
-						xPosition: players[0].xPosition -= 1
+						xVelocity: -1 * unit,
+						yVelocity: 0
 					}
 				})
 				return
-			case 38:
+			case UP:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
-						yPosition: players[0].yPosition -= 1
+						xVelocity: 0,
+						yVelocity: -1 * unit,
 					}
 				})
 				return
-			case 39:
+			case RIGHT:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
-						xPosition: players[0].xPosition += 1
+						xVelocity: 1 * unit,
+						yVelocity: 0
 					}
 				})
 				return
-			case 40:
+			case DOWN:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
-						yPosition: players[0].yPosition += 1,
+						xVelocity: 0,
+						yVelocity: 1 * unit,
 					}
 				})
 				return
 			default:
+				dispatch({ type: types.MOVE_SNAKE,
+					payload: {
+						playerId: 0,
+						keepMoving: true
+					}
+				})
 				return
 		}
 	}

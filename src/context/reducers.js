@@ -1,7 +1,8 @@
 const initialState = {
 	globalValues: {
-		xSpeed: 1,
-		ySpeed: 1
+		xVelocity: 0,
+		yVelocity: 0,
+		unit: 1
 	},
 	players: [
 		{
@@ -14,28 +15,37 @@ const initialState = {
 }
 
 const types = {
-	MOVE_SNAKE: "MOVE_SNAKE"
+	MOVE_SNAKE: 'MOVE_SNAKE',
+	UPDATE_UNIT: 'UPDATE_UNIT'
 }
 
 const reducer = (state = initialState, action) => {
 
 	switch (action.type) {
 		case types.MOVE_SNAKE:
+			if (!action.payload.keepMoving) {
+				state.globalValues.xVelocity = action.payload.xVelocity
+				state.globalValues.yVelocity = action.payload.yVelocity
+			}
+
 			const updatePlayer = state.players[action.payload.playerId]
 			state.players[action.payload.playerId] = {
 				...updatePlayer,
-				xPosition: action.payload.xPosition ? action.payload.xPosition : updatePlayer.xPosition,
-				yPosition: action.payload.yPosition ? action.payload.yPosition : updatePlayer.yPosition
+				xPosition: updatePlayer.xPosition + state.globalValues.xVelocity,
+				yPosition: updatePlayer.yPosition + state.globalValues.yVelocity
 			}
 
 			console.log(state.players[0].xPosition)
 			console.log(state.players[0].yPosition)
 
 			return {
-				...state,
-				players: [
-					...state.players
-				]
+				...state
+			}
+		case types.UPDATE_UNIT:
+			state.globalValues.unit = action.payload.unit
+
+			return {
+				...state
 			}
 		default:
 			return

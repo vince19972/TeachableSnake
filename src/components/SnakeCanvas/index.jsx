@@ -7,15 +7,18 @@ import { updateGameFrame } from '../../utilities/snake'
 
 function SnakeCanvas () {
 	const { state, dispatch, actions } = useContext(StoreContext)
-	const canvas = useRef(null)
 
 	useEffect(() => {
+		const snakeCanvas = document.getElementById('SnakeCanvas')
+		const ctx = snakeCanvas.getContext('2d')
+
 		document.addEventListener('keydown', actions.moveSnake)
-		requestAnimationFrame(updateGameFrame(state, document.getElementById('SnakeCanvas')))
+		requestAnimationFrame(updateGameFrame(state, snakeCanvas, actions.moveSnake))
+		dispatch({ type: types.UPDATE_UNIT, payload: { unit: ctx.canvas.width / 100 }})
 	}, [])
 
 	return (
-		<canvas id="SnakeCanvas" ref={canvas}></canvas>
+		<canvas id="SnakeCanvas"></canvas>
 	)
 }
 
