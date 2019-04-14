@@ -1,0 +1,25 @@
+#GameBoard {
+  max-width: 100vw;
+  	min-height: 100vh;
+		max-height: 100vh;
+	display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: column;
+	padding: 8vh 5vw;
+		box-sizing: border-box;
+	margin: 0 auto;
+}
+
+.info-bar {
+	width: 100%;
+	display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+
+	& .game-title {
+		font-size: 15vh;
+		font-weight: 900;
+		margin: 0;
+	}
+}
