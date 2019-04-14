@@ -5,7 +5,9 @@ import SnakeCanvas from '../SnakeCanvas'
 
 function GameBoard () {
 	return (
-		<SnakeCanvas/>
+		<div id="GameBoard">
+			<SnakeCanvas/>
+		</div>
 	)
 }
 

@@ -3,18 +3,19 @@ import { StoreContext } from '../../context/StoreContext'
 import { types } from '../../context/reducers'
 import './SnakeCanvas.css'
 
+import { updateGameFrame } from '../../utilities/snake'
+
 function SnakeCanvas () {
 	const { state, dispatch, actions } = useContext(StoreContext)
-	const ctx = useRef(null)
-	// const [ctx, setCtx] = useState(() => document.getElementById('SnakeCanvas').getContext('2d'))
+	const canvas = useRef(null)
 
 	useEffect(() => {
-		console.log(ctx)
 		document.addEventListener('keydown', actions.moveSnake)
+		requestAnimationFrame(updateGameFrame(state, document.getElementById('SnakeCanvas')))
 	}, [])
 
 	return (
-		<canvas id="SnakeCanvas" ref={ctx}></canvas>
+		<canvas id="SnakeCanvas" ref={canvas}></canvas>
 	)
 }
 
