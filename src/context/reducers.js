@@ -3,6 +3,10 @@ import { moveSnake } from '../utilities/snake'
 const initialState = {
 	globalValues: {
 		unit: 1,
+		snakeCanvas: {
+			widthPortion: 0.9,
+			heightPortion: 0.65
+		}
 	},
 	players: [
 		{

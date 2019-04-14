@@ -1,14 +1,17 @@
+import { initialState } from '../context/reducers'
+
 const localStore = {
 	canvasWidth: 0,
 	canvasHeight: 0
 }
 
 export function initCanvas(canvas) {
+	const { widthPortion, heightPortion } = initialState.globalValues.snakeCanvas
 	const ctx = canvas.getContext('2d')
 
 	ctx.fillStyle = 'black'
-	ctx.canvas.width = window.innerWidth * 0.9
-	ctx.canvas.height = window.innerHeight * 0.9
+	ctx.canvas.width = window.innerWidth * widthPortion
+	ctx.canvas.height = window.innerHeight * heightPortion
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 
 	localStore.canvasWidth = ctx.canvas.width
