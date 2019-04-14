@@ -2,7 +2,9 @@ import { initialState } from '../context/reducers'
 
 const localStore = {
 	canvasWidth: 0,
-	canvasHeight: 0
+	canvasHeight: 0,
+	startedAnimationFrame: false,
+	frameDebounce: 0
 }
 
 export function initCanvas(canvas) {
@@ -21,15 +23,24 @@ export function initCanvas(canvas) {
 export function updateGameFrame(state, canvas, moveSnake) {
 	const ctx = canvas.getContext('2d')
 
-	return () => {
-		initCanvas(canvas)
-		moveSnake()
+	return (timestamp) => {
+		if (!localStore.startedAnimationFrame) localStore.startedAnimationFrame = timestamp
+		let progress = timestamp - localStore.startedAnimationFrame
 
-		state.players.forEach((player, index) => {
-			const { xPosition, yPosition, color } = player
-			ctx.fillStyle = color
-			ctx.fillRect(xPosition, yPosition, 10, 10)
-		})
+		if (progress > localStore.frameDebounce) {
+			// execute main frame function
+			initCanvas(canvas)
+			moveSnake()
+
+			state.players.forEach((player, index) => {
+				const { xPosition, yPosition, color } = player
+				ctx.fillStyle = color
+				ctx.fillRect(xPosition, yPosition, 10, 10)
+			})
+
+			// reset flag
+			localStore.startedAnimationFrame = false
+		}
 
 		requestAnimationFrame(updateGameFrame(state, canvas, moveSnake))
 	}

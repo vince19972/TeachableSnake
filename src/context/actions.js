@@ -4,19 +4,37 @@ const keys = {
 	LEFT: 37,
 	UP: 38,
 	RIGHT: 39,
-	DOWN: 40
+	DOWN: 40,
+	arrowUp: 0,
+	arrowRight: 1,
+	arrowDown: 2,
+	arrowLeft: 3,
 }
 
 export const useActions = (state, dispatch) => {
 
 	function moveSnake(event) {
-		const { players, globalValues } = state
+		const { globalValues } = state
 		const { unit } = globalValues
-		const { LEFT, UP, RIGHT, DOWN } = keys
-		const keyCode = event ? event.keyCode : null
+		const {
+			LEFT,
+			UP,
+			RIGHT,
+			DOWN,
+			arrowUp,
+			arrowRight,
+			arrowDown,
+			arrowLeft
+		} = keys
+		const keyCode = event
+			? event.keyCode
+				? event.keyCode
+				: event.predictType
+			: null
 
 		switch(keyCode) {
 			case LEFT:
+			case arrowLeft:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
@@ -26,6 +44,7 @@ export const useActions = (state, dispatch) => {
 				})
 				return
 			case UP:
+			case arrowUp:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
@@ -35,6 +54,7 @@ export const useActions = (state, dispatch) => {
 				})
 				return
 			case RIGHT:
+			case arrowRight:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
@@ -44,6 +64,7 @@ export const useActions = (state, dispatch) => {
 				})
 				return
 			case DOWN:
+			case arrowDown:
 				dispatch({ type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,

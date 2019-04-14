@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer } from 'react'
 import { reducer, initialState } from './reducers'
 import { useActions } from './actions'
 

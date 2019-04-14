@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StoreContext } from '../../context/StoreContext'
 import { types } from '../../context/reducers'
 import './SnakeCanvas.css'

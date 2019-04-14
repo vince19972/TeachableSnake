@@ -5,9 +5,7 @@
 */
 
 import isMobile from './deviceDetect'
-import { initialState } from '../context/reducers'
 
-const { widthPortion, heightPortion } = initialState.globalValues.snakeCanvas
 const canvasWidth = window.innerWidth * 0.15
 const canvasHeight = window.innerHeight * 0.15
 
