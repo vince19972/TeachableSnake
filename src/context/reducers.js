@@ -50,9 +50,6 @@ const reducer = (state = initialState, action) => {
 				yPosition: newYPosition
 			}
 
-			// console.log(state.players[0].xPosition)
-			// console.log(state.players[0].yPosition)
-
 			return {
 				...state
 			}
