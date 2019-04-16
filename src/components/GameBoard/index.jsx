@@ -23,15 +23,19 @@ function GameBoard () {
 			const prediction = await model.predict(image, 4)
 			const predictType = prediction[0].className
 
-			// console.log(predictType)
 			actions.moveSnake({ predictType })
 
 			predictVideo(userWebCam)
 		}
 	}
 
+	// load the model (only once as component is mounted)
 	useEffect(() => {
-		// load the video
+		loadModel()
+	}, [])
+
+	// load the video (only once as component is mounted)
+	useEffect(() => {
 		try {
 			const video = loadVideo(document.getElementById('userWebCam'))
 			video.then((resolvedVideo) => {
@@ -40,12 +44,13 @@ function GameBoard () {
 		} catch (err) {
 			throw err
 		}
+	}, [])
 
-		// load model
-		if (userWebCam) loadModel()
-
-		// make prediction
-		predictVideo(userWebCam)
+	// make prediction (as userWebCam and model is set)
+	useEffect(() => {
+		if (userWebCam) {
+			predictVideo(userWebCam)
+		}
 	}, [userWebCam, model])
 
 	return (
