@@ -1,10 +1,11 @@
 import { initialState } from '../context/reducers'
 
-const localStore = {
+const snakeStore = {
 	canvasWidth: 0,
 	canvasHeight: 0,
 	startedAnimationFrame: false,
-	frameDebounce: 0
+	frameDebounce: 0,
+	snakeSize: 10
 }
 
 export function initCanvas(canvas) {
@@ -16,18 +17,18 @@ export function initCanvas(canvas) {
 	ctx.canvas.height = window.innerHeight * heightPortion
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-	localStore.canvasWidth = ctx.canvas.width
-	localStore.canvasHeight = ctx.canvas.height
+	snakeStore.canvasWidth = ctx.canvas.width
+	snakeStore.canvasHeight = ctx.canvas.height
 }
 
 export function updateGameFrame(state, canvas, moveSnake) {
 	const ctx = canvas.getContext('2d')
 
 	return (timestamp) => {
-		if (!localStore.startedAnimationFrame) localStore.startedAnimationFrame = timestamp
-		let progress = timestamp - localStore.startedAnimationFrame
+		if (!snakeStore.startedAnimationFrame) snakeStore.startedAnimationFrame = timestamp
+		let progress = timestamp - snakeStore.startedAnimationFrame
 
-		if (progress > localStore.frameDebounce) {
+		if (progress > snakeStore.frameDebounce) {
 			// execute main frame function
 			initCanvas(canvas)
 			moveSnake()
@@ -35,11 +36,11 @@ export function updateGameFrame(state, canvas, moveSnake) {
 			state.players.forEach((player, index) => {
 				const { xPosition, yPosition, color } = player
 				ctx.fillStyle = color
-				ctx.fillRect(xPosition, yPosition, 10, 10)
+				ctx.fillRect(xPosition, yPosition, snakeStore.snakeSize, snakeStore.snakeSize)
 			})
 
 			// reset flag
-			localStore.startedAnimationFrame = false
+			snakeStore.startedAnimationFrame = false
 		}
 
 		requestAnimationFrame(updateGameFrame(state, canvas, moveSnake))
@@ -47,7 +48,7 @@ export function updateGameFrame(state, canvas, moveSnake) {
 }
 
 export function moveSnake(currentXYPosition, currentXYVelocity) {
-	const { canvasWidth, canvasHeight } = localStore
+	const { canvasWidth, canvasHeight } = snakeStore
 	const { xPosition, yPosition } = currentXYPosition
 	const { xVelocity, yVelocity } = currentXYVelocity
 	const newXY = {
