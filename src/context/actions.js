@@ -1,4 +1,5 @@
 import { types } from './reducers'
+import { generateFoodPosition } from '../utilities/snake'
 
 const keys = {
 	LEFT: 37,
@@ -13,7 +14,7 @@ const keys = {
 
 export const useActions = (state, dispatch) => {
 
-	function moveSnake(event) {
+	function updateSnakePosition(event) {
 		const { globalValues } = state
 		const { unit } = globalValues
 		const {
@@ -35,7 +36,8 @@ export const useActions = (state, dispatch) => {
 		switch(keyCode) {
 			case LEFT:
 			case arrowLeft:
-				dispatch({ type: types.MOVE_SNAKE,
+				dispatch({
+					type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
 						xVelocity: -1 * unit,
@@ -45,7 +47,8 @@ export const useActions = (state, dispatch) => {
 				return
 			case UP:
 			case arrowUp:
-				dispatch({ type: types.MOVE_SNAKE,
+				dispatch({
+					type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
 						xVelocity: 0,
@@ -55,7 +58,8 @@ export const useActions = (state, dispatch) => {
 				return
 			case RIGHT:
 			case arrowRight:
-				dispatch({ type: types.MOVE_SNAKE,
+				dispatch({
+					type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
 						xVelocity: 1 * unit,
@@ -65,7 +69,8 @@ export const useActions = (state, dispatch) => {
 				return
 			case DOWN:
 			case arrowDown:
-				dispatch({ type: types.MOVE_SNAKE,
+				dispatch({
+					type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
 						xVelocity: 0,
@@ -74,7 +79,8 @@ export const useActions = (state, dispatch) => {
 				})
 				return
 			default:
-				dispatch({ type: types.MOVE_SNAKE,
+				dispatch({
+					type: types.MOVE_SNAKE,
 					payload: {
 						playerId: 0,
 						keepMoving: true
@@ -84,7 +90,22 @@ export const useActions = (state, dispatch) => {
 		}
 	}
 
+	function updateFoodPosition(foodId = null) {
+		const { foods } = state
+		const newFood = generateFoodPosition(state)
+		newFood.id = generateFoodId()
+
+		// console.log(newFood)
+
+		dispatch({ type: types.UPDATE_FOOD, payload: { newFood } })
+
+		function generateFoodId() {
+			return foodId ? foodId : foods.length
+		}
+	}
+
 	return {
-		moveSnake
+		updateSnakePosition,
+		updateFoodPosition
 	}
 }

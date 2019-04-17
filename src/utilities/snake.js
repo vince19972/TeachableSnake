@@ -3,9 +3,13 @@ import { initialState } from '../context/reducers'
 const snakeStore = {
 	canvasWidth: 0,
 	canvasHeight: 0,
+	notFirstInitFrame: true,
 	startedAnimationFrame: false,
 	frameDebounce: 0,
-	snakeSize: 10
+	foodColor: [
+		'yellow',
+		'pink'
+	]
 }
 
 export function initCanvas(canvas) {
@@ -21,7 +25,7 @@ export function initCanvas(canvas) {
 	snakeStore.canvasHeight = ctx.canvas.height
 }
 
-export function updateGameFrame(state, canvas, moveSnake) {
+export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFunctions) {
 	const ctx = canvas.getContext('2d')
 
 	return (timestamp) => {
@@ -31,23 +35,31 @@ export function updateGameFrame(state, canvas, moveSnake) {
 		if (progress > snakeStore.frameDebounce) {
 			// execute main frame function
 			initCanvas(canvas)
-			moveSnake()
 
-			state.players.forEach((player, index) => {
-				const { xPosition, yPosition, color } = player
-				ctx.fillStyle = color
-				ctx.fillRect(xPosition, yPosition, snakeStore.snakeSize, snakeStore.snakeSize)
-			})
+			// from action context, dispatch reducer function
+			// update the positions in global state
+			updateSnakePosition()
+
+			// draw the shapes according to global state
+			redrawSnake(state, ctx)
+			redrawFood(state, ctx)
 
 			// reset flag
 			snakeStore.startedAnimationFrame = false
+
+			if (snakeStore.notFirstInitFrame) {
+				const { updateUnit, updateFood } = firstTimeFunctions
+				updateUnit()
+				updateFood()
+				snakeStore.notFirstInitFrame = false
+			}
 		}
 
-		requestAnimationFrame(updateGameFrame(state, canvas, moveSnake))
+		requestAnimationFrame(updateGameFrame(state, canvas, updateSnakePosition, firstTimeFunctions))
 	}
 }
 
-export function moveSnake(currentXYPosition, currentXYVelocity) {
+export function generateSnakePosition(currentXYPosition, currentXYVelocity) {
 	const { canvasWidth, canvasHeight } = snakeStore
 	const { xPosition, yPosition } = currentXYPosition
 	const { xVelocity, yVelocity } = currentXYVelocity
@@ -63,4 +75,70 @@ export function moveSnake(currentXYPosition, currentXYVelocity) {
 	if (newXY.newYPosition < 0) newXY.newYPosition = canvasHeight
 
 	return newXY
+}
+
+export function redrawSnake(state, ctx) {
+	state.players.forEach((player) => {
+		const { xPosition, yPosition, color } = player
+		ctx.fillStyle = color
+		ctx.fillRect(xPosition, yPosition, state.globalValues.unit, state.globalValues.unit)
+	})
+}
+
+export function generateFoodPosition(state) {
+	const { globalValues, foods } = state
+	const { foodColor } = snakeStore
+	const { width: canvasWidth, height: canvasHeight } = globalValues.ctx.canvas
+	const newFood = {
+		id: '',
+		color: '',
+		xPosition: 0,
+		yPosition: 0
+	}
+
+	// helper functions
+	const checkPositionCollision = () => {
+		const { xPosition, yPosition } = newFood
+		const isCollided = foods
+			.filter(food => food.xPosition === xPosition, yPosition)
+			.length > 0
+
+		if (isCollided) {
+			generateFood()
+			checkPositionCollision()
+		}
+
+		return
+	}
+	const generateFood = () => {
+		const randomX = getRandomInt(0, canvasWidth)
+		const randomY = getRandomInt(0, canvasHeight)
+
+		newFood.color = foodColor[0]
+		newFood.xPosition = fmtPosition(randomX)
+		newFood.yPosition = fmtPosition(randomY)
+	}
+	const fmtPosition = position => position - (position % globalValues.unit)
+
+	// generate new color, x and y position
+	generateFood()
+
+	// check if new position is collided with old position
+	if (foods.length > 0) checkPositionCollision()
+
+	return newFood
+}
+
+export function redrawFood(state, ctx) {
+	state.foods.forEach((food) => {
+		const { xPosition, yPosition, color } = food
+		ctx.fillStyle = color
+		ctx.fillRect(xPosition, yPosition, state.globalValues.unit, state.globalValues.unit)
+	})
+}
+
+function getRandomInt(min, max) {
+	min = Math.ceil(min)
+	max = Math.floor(max)
+	return Math.floor(Math.random() * (max - min)) + min
 }

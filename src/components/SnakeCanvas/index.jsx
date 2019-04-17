@@ -12,9 +12,16 @@ function SnakeCanvas () {
 		const snakeCanvas = document.getElementById('SnakeCanvas')
 		const ctx = snakeCanvas.getContext('2d')
 
-		document.addEventListener('keydown', actions.moveSnake)
-		requestAnimationFrame(updateGameFrame(state, snakeCanvas, actions.moveSnake))
-		dispatch({ type: types.UPDATE_UNIT, payload: { unit: ctx.canvas.width / 100 }})
+		document.addEventListener('keydown', actions.updateSnakePosition)
+		requestAnimationFrame(updateGameFrame(
+			state,
+			snakeCanvas,
+			actions.updateSnakePosition,
+			{
+				updateUnit() { dispatch({ type: types.UPDATE_UNIT, payload: { ctx }}) },
+				updateFood: actions.updateFoodPosition
+			}
+		))
 	}, [])
 
 	return (
