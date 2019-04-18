@@ -9,7 +9,8 @@ const snakeStore = {
 	foodColor: [
 		'yellow',
 		'pink'
-	]
+	],
+	unit: 0
 }
 
 export function initCanvas(canvas) {
@@ -27,6 +28,7 @@ export function initCanvas(canvas) {
 
 export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFunctions) {
 	const ctx = canvas.getContext('2d')
+	const { updateUnit, updateFood } = firstTimeFunctions
 
 	return (timestamp) => {
 		if (!snakeStore.startedAnimationFrame) snakeStore.startedAnimationFrame = timestamp
@@ -39,6 +41,7 @@ export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFun
 			// from action context, dispatch reducer function
 			// update the positions in global state
 			updateSnakePosition()
+			snakeEating(state, updateFood)
 
 			// draw the shapes according to global state
 			redrawSnake(state, ctx)
@@ -48,9 +51,9 @@ export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFun
 			snakeStore.startedAnimationFrame = false
 
 			if (snakeStore.notFirstInitFrame) {
-				const { updateUnit, updateFood } = firstTimeFunctions
 				updateUnit()
 				updateFood()
+				snakeStore.unit = state.globalValues.unit
 				snakeStore.notFirstInitFrame = false
 			}
 		}
@@ -70,9 +73,9 @@ export function generateSnakePosition(currentXYPosition, currentXYVelocity) {
 
 	// exceeding boundaries situation handling
 	if (newXY.newXPosition > canvasWidth) newXY.newXPosition = 0
-	if (newXY.newXPosition < 0) newXY.newXPosition = canvasWidth
+	if (newXY.newXPosition < 0) newXY.newXPosition = fmtPosition(canvasWidth, snakeStore.unit)
 	if (newXY.newYPosition > canvasHeight) newXY.newYPosition = 0
-	if (newXY.newYPosition < 0) newXY.newYPosition = canvasHeight
+	if (newXY.newYPosition < 0) newXY.newYPosition = fmtPosition(canvasHeight, snakeStore.unit)
 
 	return newXY
 }
@@ -115,10 +118,9 @@ export function generateFoodPosition(state) {
 		const randomY = getRandomInt(0, canvasHeight)
 
 		newFood.color = foodColor[0]
-		newFood.xPosition = fmtPosition(randomX)
-		newFood.yPosition = fmtPosition(randomY)
+		newFood.xPosition = fmtPosition(randomX, globalValues.unit)
+		newFood.yPosition = fmtPosition(randomY, globalValues.unit)
 	}
-	const fmtPosition = position => position - (position % globalValues.unit)
 
 	// generate new color, x and y position
 	generateFood()
@@ -137,8 +139,26 @@ export function redrawFood(state, ctx) {
 	})
 }
 
+export function snakeEating(state, updateFoodPosition) {
+	const { players, foods } = state
+
+	players.forEach((player) => {
+		const { xPosition, yPosition } = player
+		const eatenFood = foods.filter((food) => food.xPosition === xPosition && food.yPosition === yPosition)
+		const isFoodEaten = eatenFood.length > 0
+
+		if (isFoodEaten) {
+			updateFoodPosition(eatenFood[0].id)
+		}
+	})
+}
+
 function getRandomInt(min, max) {
 	min = Math.ceil(min)
 	max = Math.floor(max)
 	return Math.floor(Math.random() * (max - min)) + min
+}
+
+function fmtPosition(position, unit) {
+	return position - (position % unit)
 }

@@ -95,17 +95,20 @@ export const useActions = (state, dispatch) => {
 		const newFood = generateFoodPosition(state)
 		newFood.id = generateFoodId()
 
-		// console.log(newFood)
-
 		dispatch({ type: types.UPDATE_FOOD, payload: { newFood } })
 
 		function generateFoodId() {
-			return foodId ? foodId : foods.length
+			return foodId !== null ? foodId : foods.length
 		}
+	}
+
+	function snakeEatingFood() {
+
 	}
 
 	return {
 		updateSnakePosition,
-		updateFoodPosition
+		updateFoodPosition,
+		snakeEatingFood
 	}
 }
