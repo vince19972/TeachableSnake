@@ -3,7 +3,7 @@ import { generateSnakePosition } from '../utilities/snake'
 const initialState = {
 	globalValues: {
 		ctx: '',
-		unit: 10,
+		unit: 20,
 		snakeCanvas: {
 			isResized: false,
 			widthPortion: 0.9,
