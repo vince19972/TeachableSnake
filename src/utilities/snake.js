@@ -1,11 +1,13 @@
 import { initialState, directions } from '../context/reducers'
 
+export let isInFrame = false
+
 const snakeStore = {
 	canvasWidth: 0,
 	canvasHeight: 0,
 	notFirstInitFrame: true,
 	startedAnimationFrame: false,
-	frameDebounce: 30,
+	frameDebounce: 60,
 	foodColor: [
 		'yellow',
 		'pink'
@@ -17,9 +19,9 @@ export function initCanvas(canvas) {
 	const { widthPortion, heightPortion } = initialState.globalValues.snakeCanvas
 	const ctx = canvas.getContext('2d')
 
-	ctx.fillStyle = 'black'
 	ctx.canvas.width = window.innerWidth * widthPortion
 	ctx.canvas.height = window.innerHeight * heightPortion
+	ctx.fillStyle = 'rgb(0,0,81)'
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 
 	snakeStore.canvasWidth = ctx.canvas.width
@@ -33,8 +35,9 @@ export function updateGameFrame(state, canvas, contextCallbacks) {
 	return (timestamp) => {
 		if (!snakeStore.startedAnimationFrame) snakeStore.startedAnimationFrame = timestamp
 		let progress = timestamp - snakeStore.startedAnimationFrame
+		isInFrame = progress > snakeStore.frameDebounce
 
-		if (progress > snakeStore.frameDebounce && !state.globalValues.isGameOver) {
+		if (isInFrame && !state.globalValues.isGameOver) {
 			// execute main frame function
 			initCanvas(canvas)
 
@@ -171,33 +174,41 @@ export function snakeEating(state, updateFoodPosition, updateSnakeLength) {
 	})
 }
 
-export function checkIsBackWrapping(movingDirection, snakeTrails) {
-	let isBackWrapping = false
+export function checkDirection(movingDirection, snakeTrails, checkIsSameDirection = false) {
+	let resultCondition = false
 
 	if (snakeTrails.length > 1) {
 		const [ xHead, yHead ] = snakeTrails[0]
 		const [ xSecond, ySecond ] = snakeTrails[1]
 
 		switch (movingDirection) {
-			case directions.UP:
-				isBackWrapping = xHead === xSecond && yHead > ySecond
+			case directions.UP: {
+				const condition = checkIsSameDirection ? yHead < ySecond : yHead > ySecond
+				resultCondition = xHead === xSecond && condition
 				break
-			case directions.RIGHT:
-				isBackWrapping = yHead === ySecond && xHead < xSecond
+			}
+			case directions.RIGHT: {
+				const condition = checkIsSameDirection ? xHead > xSecond : xHead < xSecond
+				resultCondition = yHead === ySecond && condition
 				break
-			case directions.DOWN:
-				isBackWrapping = xHead === xSecond && yHead < ySecond
+			}
+			case directions.DOWN: {
+				const condition = checkIsSameDirection ? yHead > ySecond : yHead < ySecond
+				resultCondition = xHead === xSecond && condition
 				break
-			case directions.LEFT:
-				isBackWrapping = yHead === ySecond && xHead > xSecond
+			}
+			case directions.LEFT: {
+				const condition = checkIsSameDirection ? xHead < xSecond : xHead > xSecond
+				resultCondition = yHead === ySecond && condition
 				break
+			}
 			default:
-				isBackWrapping = false
+				resultCondition = false
 				break
 		}
 	}
 
-	return isBackWrapping
+	return resultCondition
 }
 
 function isGameOver(players) {
