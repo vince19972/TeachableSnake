@@ -1,5 +1,5 @@
 import { types, directions } from './reducers'
-import { generateFoodPosition, checkDirection, isInFrame } from '../utilities/snake'
+import { generateFoodPosition, checkDirection } from '../utilities/snake'
 
 const keys = {
 	LEFT: 37,

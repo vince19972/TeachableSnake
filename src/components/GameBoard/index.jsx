@@ -24,10 +24,9 @@ function GameBoard () {
 			const prediction = await model.predict(image, 4)
 			const predictType = prediction[0].className
 
-			if (isInFrame) {
-				actions.updateSnakePosition({ predictType })
-				predictVideo(userWebCam)
-			}
+			if (isInFrame) actions.updateSnakePosition({ predictType })
+
+			predictVideo(userWebCam)
 		}
 	}
 
