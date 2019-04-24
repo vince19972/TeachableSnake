@@ -16,8 +16,8 @@ const initialState = {
 			color: 'red',
 			xVelocity: 0,
 			yVelocity: 0,
-			xPosition: 0,
-			yPosition: 0
+			length: 1,
+			trails: [[0,0]]
 		}
 	],
 	foods: []
@@ -40,18 +40,18 @@ const reducer = (state = initialState, action) => {
 				updatePlayer.yVelocity = action.payload.yVelocity
 			}
 
-			const { newXPosition, newYPosition } = generateSnakePosition({
-				xPosition: updatePlayer.xPosition,
-				yPosition: updatePlayer.yPosition
-			}, {
-				xVelocity: updatePlayer.xVelocity,
-				yVelocity: updatePlayer.yVelocity
+			const newTrails = generateSnakePosition({
+				currentLength: updatePlayer.length,
+				currentTrails: updatePlayer.trails,
+				currentXYVelocity: {
+					xVelocity: updatePlayer.xVelocity,
+					yVelocity: updatePlayer.yVelocity
+				}
 			})
 
 			state.players[action.payload.playerId] = {
 				...updatePlayer,
-				xPosition: newXPosition,
-				yPosition: newYPosition
+				trails: newTrails
 			}
 
 			return {

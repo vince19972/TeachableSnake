@@ -41,11 +41,13 @@ export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFun
 			// from action context, dispatch reducer function
 			// update the positions in global state
 			updateSnakePosition()
-			snakeEating(state, updateFood)
 
 			// draw the shapes according to global state
 			redrawSnake(state, ctx)
 			redrawFood(state, ctx)
+
+			// from action context, dispatch reducer function
+			snakeEating(state, updateFood)
 
 			// reset flag
 			snakeStore.startedAnimationFrame = false
@@ -62,29 +64,45 @@ export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFun
 	}
 }
 
-export function generateSnakePosition(currentXYPosition, currentXYVelocity) {
+export function generateSnakePosition(requiredInfo) {
+	const { currentLength, currentTrails, currentXYVelocity } = requiredInfo
 	const { canvasWidth, canvasHeight } = snakeStore
-	const { xPosition, yPosition } = currentXYPosition
 	const { xVelocity, yVelocity } = currentXYVelocity
-	const newXY = {
-		newXPosition: xPosition + xVelocity,
-		newYPosition: yPosition + yVelocity
-	}
+	const snakeHead = currentTrails[0]
+
+	const [ xPosition, yPosition ] = snakeHead
+	const newXY = [
+		xPosition + xVelocity,
+		yPosition + yVelocity
+	]
+
+	const newTrails = [newXY, ...currentTrails].slice(0, currentLength)
+	// console.log(newTrails)
 
 	// exceeding boundaries situation handling
-	if (newXY.newXPosition > canvasWidth) newXY.newXPosition = 0
-	if (newXY.newXPosition < 0) newXY.newXPosition = fmtPosition(canvasWidth, snakeStore.unit)
-	if (newXY.newYPosition > canvasHeight) newXY.newYPosition = 0
-	if (newXY.newYPosition < 0) newXY.newYPosition = fmtPosition(canvasHeight, snakeStore.unit)
+	const fmtTrails = newTrails.map((trail) => {
+		const [xPosition, yPosition] = trail
+		const fmtTrail = [xPosition, yPosition]
 
-	return newXY
+		if (xPosition > canvasWidth) fmtTrail[0] = 0
+		if (xPosition < 0) fmtTrail[0] = fmtPosition(canvasWidth, snakeStore.unit)
+		if (yPosition > canvasHeight) fmtTrail[1] = 0
+		if (yPosition < 0) fmtTrail[1] = fmtPosition(canvasHeight, snakeStore.unit)
+
+		return fmtTrail
+	})
+
+	return fmtTrails
 }
 
 export function redrawSnake(state, ctx) {
 	state.players.forEach((player) => {
-		const { xPosition, yPosition, color } = player
-		ctx.fillStyle = color
-		ctx.fillRect(xPosition, yPosition, state.globalValues.unit, state.globalValues.unit)
+		const { trails, color } = player
+		trails.forEach(trail => {
+			const [ xPosition, yPosition ] = trail
+			ctx.fillStyle = color
+			ctx.fillRect(xPosition, yPosition, state.globalValues.unit, state.globalValues.unit)
+		})
 	})
 }
 
