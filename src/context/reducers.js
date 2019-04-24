@@ -8,7 +8,8 @@ const initialState = {
 			isResized: false,
 			widthPortion: 0.9,
 			heightPortion: 0.65
-		}
+		},
+		isGameOver: false
 	},
 	players: [
 		{
@@ -27,7 +28,8 @@ const types = {
 	MOVE_SNAKE: 'MOVE_SNAKE',
 	UPDATE_LENGTH: 'UPDATE_LENGTH',
 	UPDATE_UNIT: 'UPDATE_UNIT',
-	UPDATE_FOOD: 'UPDATE_FOOD'
+	UPDATE_FOOD: 'UPDATE_FOOD',
+	UPDATE_GAME_STATUS: 'UPDATE_GAME_STATUS',
 }
 
 const directions = {
@@ -83,6 +85,13 @@ const reducer = (state = initialState, action) => {
 		case types.UPDATE_FOOD: {
 			const { newFood } = action.payload
 			state.foods[newFood.id] = newFood
+
+			return { ...state }
+		}
+		case types.UPDATE_GAME_STATUS: {
+			state.globalValues.isGameOver = !state.globalValues.isGameOver
+
+			alert('GAME OVER')
 
 			return { ...state }
 		}

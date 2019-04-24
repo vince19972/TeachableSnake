@@ -19,8 +19,9 @@ function SnakeCanvas () {
 			{
 				updateFood: actions.updateFoodPosition,
 				updateSnakePosition: actions.updateSnakePosition,
-				updateSnakeLength: (playerId) => dispatch({ type: types.UPDATE_LENGTH, payload: { playerId }}),
+				updateGameStatus: () => dispatch({ type: types.UPDATE_GAME_STATUS }),
 				updateUnit: () => dispatch({ type: types.UPDATE_UNIT, payload: { ctx }}),
+				updateSnakeLength: (playerId) => dispatch({ type: types.UPDATE_LENGTH, payload: { playerId }}),
 			}
 		))
 	}, [])

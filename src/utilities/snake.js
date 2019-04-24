@@ -28,15 +28,18 @@ export function initCanvas(canvas) {
 
 export function updateGameFrame(state, canvas, contextCallbacks) {
 	const ctx = canvas.getContext('2d')
-	const { updateUnit, updateFood, updateSnakePosition, updateSnakeLength } = contextCallbacks
+	const { updateUnit, updateFood, updateSnakePosition, updateSnakeLength, updateGameStatus } = contextCallbacks
 
 	return (timestamp) => {
 		if (!snakeStore.startedAnimationFrame) snakeStore.startedAnimationFrame = timestamp
 		let progress = timestamp - snakeStore.startedAnimationFrame
 
-		if (progress > snakeStore.frameDebounce) {
+		if (progress > snakeStore.frameDebounce && !state.globalValues.isGameOver) {
 			// execute main frame function
 			initCanvas(canvas)
+
+			// game over status
+			if (isGameOver(state.players)) updateGameStatus()
 
 			// from action context, dispatch reducer function
 			// update the positions in global state
@@ -195,6 +198,23 @@ export function checkIsBackWrapping(movingDirection, snakeTrails) {
 	}
 
 	return isBackWrapping
+}
+
+function isGameOver(players) {
+	const checkResult = players.map((player, index) => {
+		const allNodes = players.map((mapPlayer, mapIndex) => {
+			if (mapIndex !== index) {
+				return mapPlayer.trails
+			}
+			return mapPlayer.trails.slice(1, mapPlayer.trails.length)
+		})
+		const [ xHead, yHead ] = player.trails[0]
+		const isCrashed = [...allNodes][0].filter((node) => node[0] === xHead && node[1] === yHead).length > 0
+
+		return isCrashed ? index : false
+	})
+
+	return checkResult.filter(result => result !== false).length > 0
 }
 
 function getRandomInt(min, max) {
