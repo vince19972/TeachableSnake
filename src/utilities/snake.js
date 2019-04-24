@@ -161,7 +161,8 @@ export function snakeEating(state, updateFoodPosition) {
 	const { players, foods } = state
 
 	players.forEach((player) => {
-		const { xPosition, yPosition } = player
+		const { trails } = player
+		const [ xPosition, yPosition ] = trails[0]
 		const eatenFood = foods.filter((food) => food.xPosition === xPosition && food.yPosition === yPosition)
 		const isFoodEaten = eatenFood.length > 0
 
