@@ -102,13 +102,8 @@ export const useActions = (state, dispatch) => {
 		}
 	}
 
-	function snakeEatingFood() {
-
-	}
-
 	return {
 		updateSnakePosition,
-		updateFoodPosition,
-		snakeEatingFood
+		updateFoodPosition
 	}
 }

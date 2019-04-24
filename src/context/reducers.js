@@ -25,6 +25,7 @@ const initialState = {
 
 const types = {
 	MOVE_SNAKE: 'MOVE_SNAKE',
+	UPDATE_LENGTH: 'UPDATE_LENGTH',
 	UPDATE_UNIT: 'UPDATE_UNIT',
 	UPDATE_FOOD: 'UPDATE_FOOD'
 }
@@ -61,6 +62,18 @@ const reducer = (state = initialState, action) => {
 			const { ctx } = action.payload
 			// state.globalValues.unit = Math.floor(ctx.canvas.width / 120)
 			state.globalValues.ctx = ctx
+
+			return {
+				...state
+			}
+		case types.UPDATE_LENGTH:
+			const { playerId } = action.payload
+			state.players[playerId] = {
+				...state.players[playerId],
+				length: state.players[playerId].length += 1
+			}
+
+			console.log(state.players[playerId].length)
 
 			return {
 				...state

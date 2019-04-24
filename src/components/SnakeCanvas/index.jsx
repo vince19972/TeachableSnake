@@ -16,10 +16,11 @@ function SnakeCanvas () {
 		requestAnimationFrame(updateGameFrame(
 			state,
 			snakeCanvas,
-			actions.updateSnakePosition,
 			{
-				updateUnit() { dispatch({ type: types.UPDATE_UNIT, payload: { ctx }}) },
-				updateFood: actions.updateFoodPosition
+				updateFood: actions.updateFoodPosition,
+				updateSnakePosition: actions.updateSnakePosition,
+				updateSnakeLength: (playerId) => dispatch({ type: types.UPDATE_LENGTH, payload: { playerId }}),
+				updateUnit: () => dispatch({ type: types.UPDATE_UNIT, payload: { ctx }}),
 			}
 		))
 	}, [])

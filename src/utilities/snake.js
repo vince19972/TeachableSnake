@@ -26,9 +26,9 @@ export function initCanvas(canvas) {
 	snakeStore.canvasHeight = ctx.canvas.height
 }
 
-export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFunctions) {
+export function updateGameFrame(state, canvas, contextCallbacks) {
 	const ctx = canvas.getContext('2d')
-	const { updateUnit, updateFood } = firstTimeFunctions
+	const { updateUnit, updateFood, updateSnakePosition, updateSnakeLength } = contextCallbacks
 
 	return (timestamp) => {
 		if (!snakeStore.startedAnimationFrame) snakeStore.startedAnimationFrame = timestamp
@@ -47,7 +47,7 @@ export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFun
 			redrawFood(state, ctx)
 
 			// from action context, dispatch reducer function
-			snakeEating(state, updateFood)
+			snakeEating(state, updateFood, updateSnakeLength)
 
 			// reset flag
 			snakeStore.startedAnimationFrame = false
@@ -60,7 +60,7 @@ export function updateGameFrame(state, canvas, updateSnakePosition, firstTimeFun
 			}
 		}
 
-		requestAnimationFrame(updateGameFrame(state, canvas, updateSnakePosition, firstTimeFunctions))
+		requestAnimationFrame(updateGameFrame(state, canvas, contextCallbacks))
 	}
 }
 
@@ -157,10 +157,10 @@ export function redrawFood(state, ctx) {
 	})
 }
 
-export function snakeEating(state, updateFoodPosition) {
+export function snakeEating(state, updateFoodPosition, updateSnakeLength) {
 	const { players, foods } = state
 
-	players.forEach((player) => {
+	players.forEach((player, index) => {
 		const { trails } = player
 		const [ xPosition, yPosition ] = trails[0]
 		const eatenFood = foods.filter((food) => food.xPosition === xPosition && food.yPosition === yPosition)
@@ -168,6 +168,7 @@ export function snakeEating(state, updateFoodPosition) {
 
 		if (isFoodEaten) {
 			updateFoodPosition(eatenFood[0].id)
+			updateSnakeLength(index)
 		}
 	})
 }
