@@ -23,35 +23,35 @@ function GameBoard () {
 			const prediction = await model.predict(image, 4)
 			const predictType = prediction[0].className
 
-			actions.moveSnake({ predictType })
+			actions.updateSnakePosition({ predictType })
 
 			predictVideo(userWebCam)
 		}
 	}
 
-	// load the model (only once as component is mounted)
-	useEffect(() => {
-		loadModel()
-	}, [])
+	// // load the model (only once as component is mounted)
+	// useEffect(() => {
+	// 	loadModel()
+	// }, [])
 
-	// load the video (only once as component is mounted)
-	useEffect(() => {
-		try {
-			const video = loadVideo(document.getElementById('userWebCam'))
-			video.then((resolvedVideo) => {
-				setUserWebCam(resolvedVideo)
-			})
-		} catch (err) {
-			throw err
-		}
-	}, [])
+	// // load the video (only once as component is mounted)
+	// useEffect(() => {
+	// 	try {
+	// 		const video = loadVideo(document.getElementById('userWebCam'))
+	// 		video.then((resolvedVideo) => {
+	// 			setUserWebCam(resolvedVideo)
+	// 		})
+	// 	} catch (err) {
+	// 		throw err
+	// 	}
+	// }, [])
 
-	// make prediction (as userWebCam and model is set)
-	useEffect(() => {
-		if (userWebCam) {
-			predictVideo(userWebCam)
-		}
-	}, [userWebCam, model])
+	// // make prediction (as userWebCam and model is set)
+	// useEffect(() => {
+	// 	if (userWebCam) {
+	// 		predictVideo(userWebCam)
+	// 	}
+	// }, [userWebCam, model])
 
 	return (
 		<div id="GameBoard">
