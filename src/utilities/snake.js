@@ -5,7 +5,7 @@ const snakeStore = {
 	canvasHeight: 0,
 	notFirstInitFrame: true,
 	startedAnimationFrame: false,
-	frameDebounce: 60,
+	frameDebounce: 30,
 	foodColor: [
 		'yellow',
 		'pink'
@@ -40,6 +40,7 @@ export function updateGameFrame(state, canvas, contextCallbacks) {
 
 			// from action context, dispatch reducer function
 			// update the positions in global state
+			snakeEating(state, updateFood, updateSnakeLength)
 			updateSnakePosition()
 
 			// draw the shapes according to global state
@@ -47,7 +48,6 @@ export function updateGameFrame(state, canvas, contextCallbacks) {
 			redrawFood(state, ctx)
 
 			// from action context, dispatch reducer function
-			snakeEating(state, updateFood, updateSnakeLength)
 
 			// reset flag
 			snakeStore.startedAnimationFrame = false
