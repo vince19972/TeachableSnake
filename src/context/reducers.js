@@ -73,8 +73,6 @@ const reducer = (state = initialState, action) => {
 				length: state.players[playerId].length += 1
 			}
 
-			console.log(state.players[playerId].length)
-
 			return {
 				...state
 			}
