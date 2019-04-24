@@ -6,15 +6,15 @@ const initialState = {
 		unit: 20,
 		snakeCanvas: {
 			isResized: false,
-			widthPortion: 0.9,
-			heightPortion: 0.65
+			widthPortion: 0.85,
+			heightPortion: 0.6
 		},
 		isGameOver: false
 	},
 	players: [
 		{
 			name: 'player 1',
-			color: 'red',
+			color: '#00701a',
 			xVelocity: 0,
 			yVelocity: 0,
 			length: 1,

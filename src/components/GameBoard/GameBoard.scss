@@ -1,12 +1,12 @@
 #GameBoard {
   max-width: 100vw;
-  	min-height: 100vh;
+		min-height: 100vh;
 		max-height: 100vh;
 	display: flex;
 		align-items: center;
 		justify-content: space-between;
 		flex-direction: column;
-	padding: 8vh 5vw;
+	padding: 8vh 10vw 12vh 10vw;
 		box-sizing: border-box;
 	margin: 0 auto;
 }
@@ -15,11 +15,13 @@
 	width: 100%;
 	display: flex;
 		justify-content: space-between;
-		align-items: flex-start;
+		align-items: baseline;
 
 	& .game-title {
-		font-size: 6.5vw;
+		color: var(--c_light);
+		font-size: 7vw;
 		font-weight: 900;
 		margin: 0;
+		transform: translate3d(0, -8px, 0);
 	}
 }

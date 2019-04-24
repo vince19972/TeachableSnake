@@ -7,7 +7,7 @@
 import isMobile from './deviceDetect'
 
 const canvasWidth = window.innerWidth * 0.15
-const canvasHeight = window.innerHeight * 0.15
+const canvasHeight = window.innerHeight * 0.125
 
 export async function setupCamera(videoElement) {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {

@@ -9,8 +9,8 @@ const snakeStore = {
 	startedAnimationFrame: false,
 	frameDebounce: 60,
 	foodColor: [
-		'yellow',
-		'pink'
+		'#fbc02d',
+		'#f48fb1'
 	],
 	unit: 0
 }
@@ -21,7 +21,7 @@ export function initCanvas(canvas) {
 
 	ctx.canvas.width = window.innerWidth * widthPortion
 	ctx.canvas.height = window.innerHeight * heightPortion
-	ctx.fillStyle = 'rgb(0,0,81)'
+	ctx.fillStyle = '#eeeeee'
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 
 	snakeStore.canvasWidth = ctx.canvas.width
