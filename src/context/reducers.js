@@ -30,15 +30,23 @@ const types = {
 	UPDATE_FOOD: 'UPDATE_FOOD'
 }
 
+const directions = {
+	LEFT: 'left',
+	UP: 'up',
+	RIGHT: 'right',
+	DOWN: 'down',
+}
+
 const reducer = (state = initialState, action) => {
 
 	switch (action.type) {
-		case types.MOVE_SNAKE:
-			const updatePlayer = state.players[action.payload.playerId]
+		case types.MOVE_SNAKE: {
+			const { playerId, xVelocity: newXVelocity, yVelocity: newYVelocity, keepMoving, isBackWrapping } = action.payload
+			const updatePlayer = state.players[playerId]
 
-			if (!action.payload.keepMoving) {
-				updatePlayer.xVelocity = action.payload.xVelocity
-				updatePlayer.yVelocity = action.payload.yVelocity
+			if (!keepMoving && !isBackWrapping) {
+				updatePlayer.xVelocity = newXVelocity
+				updatePlayer.yVelocity = newYVelocity
 			}
 
 			const newTrails = generateSnakePosition({
@@ -50,43 +58,38 @@ const reducer = (state = initialState, action) => {
 				}
 			})
 
-			state.players[action.payload.playerId] = {
+			state.players[playerId] = {
 				...updatePlayer,
 				trails: newTrails
 			}
 
-			return {
-				...state
-			}
-		case types.UPDATE_UNIT:
+			return { ...state }
+		}
+		case types.UPDATE_UNIT: {
 			const { ctx } = action.payload
-			// state.globalValues.unit = Math.floor(ctx.canvas.width / 120)
 			state.globalValues.ctx = ctx
 
-			return {
-				...state
-			}
-		case types.UPDATE_LENGTH:
+			return { ...state }
+		}
+		case types.UPDATE_LENGTH: {
 			const { playerId } = action.payload
 			state.players[playerId] = {
 				...state.players[playerId],
 				length: state.players[playerId].length += 1
 			}
 
-			return {
-				...state
-			}
-		case types.UPDATE_FOOD:
+			return { ...state }
+		}
+		case types.UPDATE_FOOD: {
 			const { newFood } = action.payload
 			state.foods[newFood.id] = newFood
 
-			return {
-				...state
-			}
+			return { ...state }
+		}
 		default:
 			return
 	}
 
 }
 
-export { initialState, types, reducer }
+export { initialState, types, reducer, directions }

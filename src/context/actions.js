@@ -1,5 +1,5 @@
-import { types } from './reducers'
-import { generateFoodPosition } from '../utilities/snake'
+import { types, directions } from './reducers'
+import { generateFoodPosition, checkIsBackWrapping } from '../utilities/snake'
 
 const keys = {
 	LEFT: 37,
@@ -15,7 +15,7 @@ const keys = {
 export const useActions = (state, dispatch) => {
 
 	function updateSnakePosition(event) {
-		const { globalValues } = state
+		const { globalValues, players } = state
 		const { unit } = globalValues
 		const {
 			LEFT,
@@ -39,6 +39,7 @@ export const useActions = (state, dispatch) => {
 				dispatch({
 					type: types.MOVE_SNAKE,
 					payload: {
+						isBackWrapping: checkIsBackWrapping(directions.LEFT, players[0].trails),
 						playerId: 0,
 						xVelocity: -1 * unit,
 						yVelocity: 0
@@ -50,6 +51,7 @@ export const useActions = (state, dispatch) => {
 				dispatch({
 					type: types.MOVE_SNAKE,
 					payload: {
+						isBackWrapping: checkIsBackWrapping(directions.UP, players[0].trails),
 						playerId: 0,
 						xVelocity: 0,
 						yVelocity: -1 * unit,
@@ -61,6 +63,7 @@ export const useActions = (state, dispatch) => {
 				dispatch({
 					type: types.MOVE_SNAKE,
 					payload: {
+						isBackWrapping: checkIsBackWrapping(directions.RIGHT, players[0].trails),
 						playerId: 0,
 						xVelocity: 1 * unit,
 						yVelocity: 0
@@ -72,6 +75,7 @@ export const useActions = (state, dispatch) => {
 				dispatch({
 					type: types.MOVE_SNAKE,
 					payload: {
+						isBackWrapping: checkIsBackWrapping(directions.DOWN, players[0].trails),
 						playerId: 0,
 						xVelocity: 0,
 						yVelocity: 1 * unit,

@@ -1,4 +1,4 @@
-import { initialState } from '../context/reducers'
+import { initialState, directions } from '../context/reducers'
 
 const snakeStore = {
 	canvasWidth: 0,
@@ -71,13 +71,8 @@ export function generateSnakePosition(requiredInfo) {
 	const snakeHead = currentTrails[0]
 
 	const [ xPosition, yPosition ] = snakeHead
-	const newXY = [
-		xPosition + xVelocity,
-		yPosition + yVelocity
-	]
-
+	const newXY = [ xPosition + xVelocity, yPosition + yVelocity ]
 	const newTrails = [newXY, ...currentTrails].slice(0, currentLength)
-	// console.log(newTrails)
 
 	// exceeding boundaries situation handling
 	const fmtTrails = newTrails.map((trail) => {
@@ -171,6 +166,35 @@ export function snakeEating(state, updateFoodPosition, updateSnakeLength) {
 			updateSnakeLength(index)
 		}
 	})
+}
+
+export function checkIsBackWrapping(movingDirection, snakeTrails) {
+	let isBackWrapping = false
+
+	if (snakeTrails.length > 1) {
+		const [ xHead, yHead ] = snakeTrails[0]
+		const [ xSecond, ySecond ] = snakeTrails[1]
+
+		switch (movingDirection) {
+			case directions.UP:
+				isBackWrapping = xHead === xSecond && yHead > ySecond
+				break
+			case directions.RIGHT:
+				isBackWrapping = yHead === ySecond && xHead < xSecond
+				break
+			case directions.DOWN:
+				isBackWrapping = xHead === xSecond && yHead < ySecond
+				break
+			case directions.LEFT:
+				isBackWrapping = yHead === ySecond && xHead > xSecond
+				break
+			default:
+				isBackWrapping = false
+				break
+		}
+	}
+
+	return isBackWrapping
 }
 
 function getRandomInt(min, max) {
