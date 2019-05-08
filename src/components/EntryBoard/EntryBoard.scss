@@ -1,0 +1,150 @@
+#EntryBoard {
+  max-width: 100vw;
+		min-height: 100vh;
+		max-height: 100vh;
+	display: flex;
+	background-color: var(--c_light);
+}
+
+.left-side {
+	max-width: 35vw;
+		min-width: 35vw;
+	display: flex;
+		flex-direction: column;
+	background-color: var(--c_theme-primary);
+}
+
+.left-side__top {
+	flex-grow: 2;
+	padding: 24px 4vw;
+	display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	position: relative;
+
+	&:after {
+		content: '';
+		position: absolute;
+			top: 0;
+			left: 0;
+		width: 1.1vw;
+			height: 1.1vw;
+		background-color: var(--c_orange);
+
+		animation-name: dot;
+		animation-duration: 4s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	}
+}
+
+@keyframes dot {
+	0% {
+		top: 0;
+		left: 0;
+	}
+	25% {
+		top: calc(100% - 1.1vw);
+		left: 0;
+	}
+	50% {
+		top: calc(100% - 1.1vw);
+		left: calc(100% - 1.1vw);
+	}
+	75% {
+		top: 0%;
+		left: calc(100% - 1.1vw);
+	}
+	100% {
+		top: 0;
+		left: 0;
+	}
+}
+
+.left-side__btm {
+	height: 10vh;
+	display: flex;
+		align-items: center;
+		justify-content: center;
+}
+
+.right-side {
+	flex-grow: 2;
+	padding: 0 8vw;
+	text-align: center;
+}
+
+.start-btn {
+	font-size: 2vw;
+	font-weight: 900;
+	color: var(--c_light);
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	background-color: var(--c_orange);
+
+	&:hover {
+		cursor: pointer;
+		background-color: #F5A623;
+	}
+}
+
+.main {
+	.title {
+		font-size: 4vw;
+			font-weight: 900;
+			text-align: center;
+			line-height: 4.5vw;
+		color: var(--c_light);
+	}
+}
+
+.info {
+	padding: 0 2vw;
+	.credit {
+		color: var(--c_light);
+		font-size: 1vw;
+	}
+}
+
+.tutorial {
+	display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	height: 100%;
+		max-width: 80%;
+	margin: 0 auto;
+
+	.top {
+		.indication {
+			font-size: 1.5vw;
+			text-align: center;
+			width: 100%;
+			padding: 40px 0;
+		}
+	}
+
+	.image {
+		padding: 16px 0;
+		text-align: center;
+		img {
+			max-width: 45%;
+		}
+	}
+	.steps {
+		text-align: center;
+		font-size: 2vw;
+		font-weight: 700;
+
+		.step {
+			&:not(:last-child) {
+				&:after {
+					content: '>';
+					margin: 0 12px 0 16px;
+				}
+			}
+		}
+	}
+}

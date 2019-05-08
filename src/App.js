@@ -1,17 +1,25 @@
-import React, { Component } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { StoreContext } from './context/StoreContext'
 import './App.css'
 import './styles/_variables.css'
 
 import GameBoard from './components/GameBoard'
+import EntryBoard from './components/EntryBoard'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
+function App () {
+
+  const { state } = useContext(StoreContext)
+
+  return (
+    <div className="App">
+      {state.globalValues.isGameStarted ? (
         <GameBoard />
-      </div>
-    )
-  }
+      ) : (
+        <EntryBoard />
+      )}
+    </div>
+  )
+
 }
 
 export default App

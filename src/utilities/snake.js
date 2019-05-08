@@ -53,8 +53,6 @@ export function updateGameFrame(state, canvas, contextCallbacks) {
 			redrawSnake(state, ctx)
 			redrawFood(state, ctx)
 
-			// from action context, dispatch reducer function
-
 			// reset flag
 			snakeStore.startedAnimationFrame = false
 

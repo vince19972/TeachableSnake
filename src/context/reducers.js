@@ -9,7 +9,8 @@ const initialState = {
 			widthPortion: 0.85,
 			heightPortion: 0.6
 		},
-		isGameOver: false
+		isGameOver: false,
+		isGameStarted: false
 	},
 	players: [
 		{
@@ -29,6 +30,7 @@ const types = {
 	UPDATE_LENGTH: 'UPDATE_LENGTH',
 	UPDATE_UNIT: 'UPDATE_UNIT',
 	UPDATE_FOOD: 'UPDATE_FOOD',
+	UPDATE_GAME_START: 'UPDATE_GAME_START',
 	UPDATE_GAME_STATUS: 'UPDATE_GAME_STATUS',
 }
 
@@ -85,6 +87,11 @@ const reducer = (state = initialState, action) => {
 		case types.UPDATE_FOOD: {
 			const { newFood } = action.payload
 			state.foods[newFood.id] = newFood
+
+			return { ...state }
+		}
+		case types.UPDATE_GAME_START: {
+			state.globalValues.isGameStarted = !state.globalValues.isGameStarted
 
 			return { ...state }
 		}
