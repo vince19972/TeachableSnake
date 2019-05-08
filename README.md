@@ -2,7 +2,8 @@
 
 ![demo gif](https://cl.ly/7da1772ebb18/Screen%252520Recording%2525202019-05-08%252520at%25252012.56%252520AM.gif)
 
-👉 [Play the game here](https://teachable-snake.netlify.com)
+🕹 [Play the game here](https://teachable-snake.netlify.com)
+✏️ [Showcase](https://www.vinceshao.com/works/teachable-snake)
 
 This project is the final project of class [Machine Learning for the Web](https://github.com/yining1023/machine-learning-for-the-web) at ITP, NYU. It's powered by [Tensorflow.js](https://www.tensorflow.org/js/guide/nodejs) and [Teachable Machine](https://teachablemachine.withgoogle.com/) by Google.
 
