@@ -25,3 +25,32 @@
 		transform: translate3d(0, -8px, 0);
 	}
 }
+
+.btm-bar {
+	width: 100%;
+	font-size: .7vw;
+	color: #c9c9c9;
+
+	.infos {
+		display: flex;
+		margin: 0;
+		padding: 0;
+
+		.info {
+			list-style: none;
+
+			a {
+				color: white;
+				text-decoration: none;
+
+				&:hover {
+					color: var(--c_orange);
+				}
+			}
+
+			&:not(:last-child) {
+				margin-right: 1vw;
+			}
+		}
+	}
+}

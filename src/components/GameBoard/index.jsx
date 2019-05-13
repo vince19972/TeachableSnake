@@ -63,6 +63,13 @@ function GameBoard () {
 			<div className="main-canvas">
 				<SnakeCanvas/>
 			</div>
+			<div className="btm-bar">
+				<ul className="infos">
+					<li className="info">Created by <a href="https://www.vinceshao.com/">Vince MingPu Shao</a></li>
+					<li className="info">Powered by <a href="https://teachablemachine.withgoogle.com/">Google's Teachable Machine</a></li>
+					<li className="info">Source code on <a href="https://github.com/vince19972/TeachableSnake">GitHub</a></li>
+				</ul>
+			</div>
 		</div>
 	)
 }

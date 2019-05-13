@@ -20,7 +20,7 @@ function EntryBoard () {
 					<div className="main">
 						<h1 className="title">Teachable Snake</h1>
 						<ul className="infos">
-							<li className="info">Created by <a href="https://github.com/vince19972/TeachableSnake">Vince MingPu Shao</a></li>
+							<li className="info">Created by <a href="https://www.vinceshao.com/">Vince MingPu Shao</a></li>
 							<li className="info">Powered by <a href="https://teachablemachine.withgoogle.com/">Google's Teachable Machine</a></li>
 							<li className="info">Source code on <a href="https://github.com/vince19972/TeachableSnake">GitHub</a></li>
 						</ul>
