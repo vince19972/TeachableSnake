@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { StoreContext } from './context/StoreContext'
-import './App.css'
+import './App.scss'
 import './styles/_variables.css'
 
 import GameBoard from './components/GameBoard'
@@ -17,6 +17,9 @@ function App () {
       ) : (
         <EntryBoard />
       )}
+      <div className="media-warn">
+        <h2>Sorry! Only support desktop experience at this moment.</h2>
+      </div>
     </div>
   )
 
