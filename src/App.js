@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { StoreContext } from './context/StoreContext'
 import './App.css'
 import './styles/_variables.css'
