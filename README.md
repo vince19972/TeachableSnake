@@ -4,14 +4,14 @@
 
 🕹 Play the game [here](https://teachable-snake.netlify.com)
 
-👉 [Showcase](https://www.vinceshao.com/works/teachable-snake) of the project
+👉 [Case study](https://www.vinceshao.com/works/teachable-snake) of the project
 
 This project is the final project of class [Machine Learning for the Web](https://github.com/yining1023/machine-learning-for-the-web) at ITP, NYU. It's powered by [Tensorflow.js](https://www.tensorflow.org/js/guide/nodejs) and [Teachable Machine](https://teachablemachine.withgoogle.com/) by Google.
 
 
 ---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
