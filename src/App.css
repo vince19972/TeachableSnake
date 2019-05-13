@@ -1,3 +1,8 @@
 .App {
 	background-color: var(--c_theme-primary);
 }
+
+.-flex-column {
+	display: flex;
+		flex-direction: column;
+}

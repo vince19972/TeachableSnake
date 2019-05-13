@@ -1,5 +1,6 @@
 #InfoBoard {
 	height: 100%;
+	padding: 0 8vw;
 }
 
 .tutorial {
@@ -8,7 +9,6 @@
 		align-items: center;
 		justify-content: center;
 	height: 100%;
-		max-width: 85%;
 	margin: 0 auto;
 
 	.top {
@@ -21,10 +21,18 @@
 	}
 
 	.image {
-		padding: 16px 0;
 		text-align: center;
-		img {
-			max-width: 45%;
+		max-width: 25vh;
+			height: 25vh;
+			max-height: 25vh;
+			margin: 0 auto;
+		overflow: hidden;
+
+		.sprite {
+			height: 100%;
+			background: url(../../assets/icons/sprite.png) left center;
+				background-size: cover;
+			animation: sprite 3s steps(4) infinite;
 		}
 	}
 	.steps {
@@ -40,5 +48,11 @@
 				}
 			}
 		}
+	}
+}
+
+@keyframes sprite {
+	100% {
+		background-position: -100vh;
 	}
 }

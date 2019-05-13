@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import './InfoBoard.scss'
-import papers from '../../assets/icons/papers.gif'
 
 function InfoBoard () {
 
@@ -12,7 +11,7 @@ function InfoBoard () {
 						<span>how to play the game</span>
 					</div>
 					<div className="image">
-						<img src={papers} alt="papers"/>
+						<div className="sprite"></div>
 					</div>
 				</div>
 				<div className="btm">
