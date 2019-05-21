@@ -7,9 +7,9 @@ const keys = {
 	RIGHT: 39,
 	DOWN: 40,
 	arrowUp: 0,
-	arrowRight: 1,
+	arrowRight: 3,
 	arrowDown: 2,
-	arrowLeft: 3,
+	arrowLeft: 1,
 }
 
 export const useActions = (state, dispatch) => {
