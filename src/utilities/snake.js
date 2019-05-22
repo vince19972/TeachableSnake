@@ -7,7 +7,7 @@ const snakeStore = {
 	canvasHeight: 0,
 	notFirstInitFrame: true,
 	startedAnimationFrame: false,
-	frameDebounce: 100,
+	frameDebounce: 150,
 	foodColor: [
 		'#fbc02d',
 		'#f48fb1'
